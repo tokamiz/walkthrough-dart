@@ -70,9 +70,9 @@ classDiagram
 ```
 **class Library:**
 - Der Konstruktor fordert einen Bibliotheksnamen. So kann der Bestand mehrerer Bibliotheken organisiert und eine mögliche Erweiterbarkeit erzielt werden.
-- Eine Bibliothek erhält ein Set aus Bücherkollektionen(libCollections) und ein Set aus Bibliotheksbesuchern(libClients). Fast alle Klassenmethoden operieren mit diesen zwei Parametern. 'Set' wurde gewählt, um doppelte Einträge zu vermeiden.
+- Eine Bibliothek erhält ein Set aus Bücherkollektionen(libCollections) und ein Set aus Bibliotheksbesuchern(libClients). Fast alle Klassenmethoden operieren mit diesen zwei Parametern. "Set" wurde gewählt, um doppelte Einträge zu vermeiden.
 - Die Klasse mit der Methode „getStartOfLibrary” stellt den Ausgangspunkt für das gesamte Programm dar. Hier kann man sich entweder mit dem Bestand der Bibliothek vertraut machen oder das eigene Konto verwalten.
-- Wenn man sich für die Kontoverwaltung entscheidet und „2” in der Konsole einträgt, wird die Methode „accountCreateOrManage” aufgerufen. Hier wird mit den Daten von „libClients” operiert. In der Methode „findReader” wird zunächst ein Kunde mit dem angegebenen Namen gesucht. Wenn kein Kunde gefunden wurde, wird dem Benutzer vorgeschlagen, ein eigenes Konto zu erstellen. Ein Objekt der Klasse „Reader” wird mit den Argumenten „name” und „address” erstellt und in den Set „libClients” eingetragen. Bei ungültigen Daten wird der Benutzer aufgefordert, das Verfahren zu wiederholen oder das Programm zu beenden.
+- Wenn man sich für die Kontoverwaltung entscheidet und "2" in der Konsole einträgt, wird die Methode „accountCreateOrManage” aufgerufen. Hier wird mit den Daten von „libClients” operiert. In der Methode „findReader” wird zunächst ein Kunde mit dem angegebenen Namen gesucht. Wenn kein Kunde gefunden wurde, wird dem Benutzer vorgeschlagen, ein eigenes Konto zu erstellen. Ein Objekt der Klasse „Reader” wird mit den Argumenten „name” und „address” erstellt und in den Set „libClients” eingetragen. Bei ungültigen Daten wird der Benutzer aufgefordert, das Verfahren zu wiederholen oder das Programm zu beenden.
 - Wenn man sich mit dem Bibliotheksbestand vertraut machen möchte und „1” in die Konsole einträgt, wird die Methode „libraryFilter” aufgerufen. Hier wird mit den Daten von „libCollections” operiert. In dieser Methode gibt es zwei Optionen: Man kann sich entweder erst die bestehenden Buchsammlungen anschauen und anschließend die Bücher des ausgewählten Genres oder alle Bücher gelistet bekommen. Die beiden Verfahren beziehen sich letztlich auf die gleiche Methode „getReaderBookingWorkflow”, mit einem Unterschied: Im Fall von „libCollections” wird das Argument „foundCollection” für die bestimmte Buchsammlung geliefert. Falls diese nicht vorhanden ist, werden alle Bücher in der Methode berücksichtigt. Das Argument „currentReader” ist optional. Es spielt bei den weiteren Funktionsaufrufen eine Rolle.
 - Die Methode „getReaderBookingWorkflow“ der Klasse „Library“ bietet die Möglichkeit, das gewünschte Buch auszuleihen. Falls der optionale Parameter „currentReader” nicht übergeben wurde, soll das Konto des Benutzers mit der Methode „findReader” entweder gefunden oder erstellt werden. Erst nachdem der Benutzer bestimmt wurde, kann in der Methode „findBookInLibrary” das Buch mit dem Aufrufen der Methode „getBook” der Klasse „BookCollection” gefunden werden. Falls das Buch gefunden wurde, kann der Benutzer es mit der Methode „borrowBook” der Klasse „Reader” ausleihen.
 
@@ -149,7 +149,10 @@ In der Methode "getReaderBookingWorkflow" wird ein Benutzer bestimmt. Bei einem 
 5. Wird die Methode "libraryFilter" über "accountCreateOrManage" aufgerufen, wird der Benutzer als Parameter weitergeleitet. Dadurch entfällt die Notwendigkeit, einen Benutzer in "getStartOfLibrary" zu identifizieren.
 
 **Die alternative Lösung**
-Es wäre möglich, die Daten des aktuellen Benutzers global zu speichern und sie ähnlich wie das Objekt „student” im Quellcode zu verwenden. Dann kann man im Quellcode beim Bedarf abfragen, ob der aktuelle Benutzer schon definiert wurde. Dafür muss man eine zusätzliche Variable pflegen. 
+Es wäre möglich, die Daten des aktuellen Benutzers global zu speichern und sie ähnlich wie das Objekt „student” im Quellcode zu verwenden. Dann kann im Quellcode bei Bedarf abgefragt werden, ob der aktuelle Benutzer bereits definiert wurde. Dafür muss allerdings eine zusätzliche Variable gepflegt werden.
+Eine andere Lösung besteht darin, eine Session von der Standardbibliothek "dart:io" zu verwenden.
+Da es sich nicht um ein vollständiges Projekt, sondern um eine kleine Aufgabe für das Klassenverständnis handelt, wurde eine Lösung mit dem geringsten Aufwand ohne wiederholte Abfragen gewählt: Ein aktueller Benutzer wird über den Parameter übergeben. Außerdem hat sich bei der Verwendung der Variable mit möglichen Nullwert(?) eine Effizienz gezeigt.
+Um einen ununterbrochenen Workflow zu erzielen, könnte man nach jeder Aktion zum Startmenü zurückkehren. Mir war es wichtig, zu zeigen, wie elegant sich verschiedene logische Wege mittels Klassen umsetzen lassen.
 
 ### Aufgabe 1.3: User Experience
 Ohne GUI ist es schwierig, einen benutzerfreundlichen Ablauf zu gewährleisten. Die Trennung zwischen den logischen Abschnitten wurde mittels Zeilenabständen und Trennlinien (print("________________________________________________");) wie in der Methode "showAllBooksOfCollection" erreicht.
@@ -162,14 +165,50 @@ Die Klasse "BookItem" wiederholt die Parameter der Klasse "Book", die den Author
 
 Eine Bibliothek, die in der Klasse "Library" dargestellt wird, kann nicht nur für Büchersammlungen, sondern auch für viele weitere Kategorien wie Audio- und Videoaufnahmen sowie Computerspiele infrage kommen. Gemeinsam sind die Klassifizierung nach Genres und eine Benutzergruppe. Zu diesem Zweck wäre die Verwendung einer abstrakten Klasse sinnvoll.
 
-- 
+- Private Felder mit Unterstrich sichern empfindliche Informationen gegen Manipulation von außen. Sie werden in Gettern und Setzern verwendet. In dem Projekt wären Getter und Setter im Hinblick auf die Kontoverwaltung sinnvoll, um die persönlichen Daten der Benutzer zu schützen.
+Zusätzlich kann man in Setter eine Validierung der Daten einbauen. Bei der Kontoerstellung wird nach der Adresse des Benutzers gefragt, ohne deren Gültigkeit zu prüfen. Hier wäre die Ansetzung vom Setter vorteilig.
 
 ### Aufgabe 2.2: Collections und Datenstrukturen
+- Set<Book> books (globale Variable) - Die Bücher in der Bibliothek müssen eindeutig identifiziert werden. Duplikate sind nicht zulässig. Deswegen passt "Set" als Typ in diesem Fall.
+List<BookItem> bookItems (die Klasse Book) - Hier geht es um mehrere Exemplare eines Buches. Da die Daten identisch sein müssen passt der Typ "List" gut geeignet.
+In diesem Projekt wird der Typ "Map" nicht verwendet, da eine Klasse die Spezifikation von "Map" mit Schlüssel-Wert-Paaren gut widerspiegelt.
+
+- In "List" wird bei der Suche eine Iteration durchgeführt. Deshalb kann eine Suchmethode bei großen Mengen von Elementen langsamer laufen als bei "Set" und "Map", die auf der Hashing-Technik basieren. Bei kleinen Mengen von Elementen ist die Iteration von "List" hingegen schneller. 
+Wenn die Reihenfolge der Elemente eine Rolle spielt, sollte "List" benutzt werden, da die Reihenfolge der Elemente bei anderen Typen nicht garantiert ist. Mit "contains" wird eine Existenzprüfung durchgeführt, die für alle drei Typen anwendbar ist.
+
+- In der Methode "libraryFilter" der Klasse "Library" werden alle Büchersammlungen in einer For-Schleife iteriert: 
+
+for(BookCollektion collektion in libCollections){
+    collektion.showAllBooksOfCollection();
+}
+
+Die For-Schleife ist die am häufigsten verwendete Schleife im Quellcode. Sie ist die effizienteste Methode, um alle Elemente aufzulisten.
+In der Methode "addBookToLibrary" der Klasse "Library" soll  eine Buchsammlung entweder nach der Genre gefunden, oder eine neue erstellt werden, falls keine gefunden wurde. Da es um ein bestimmtes Element geht, wird die Abfrage "firstWhere - orElse" verwendet.
+
+BookCollektion collektion = libr.libCollections.firstWhere(
+    (item) => item.genre == genre,
+    orElse: (){
+        wasCreated = true;
+        BookCollektion newCollection = BookCollektion(genre);
+        newCollection.collId = libr.libCollections.length + 1;
+        return newCollection;
+    }
+);
+
+"map" ist sinnvoll zu benutzen, wenn eine Transformation, z.B. mit "join", durchgefürht werden soll.
+"fold" passt für die Fälle, in denen ein vorheriges Element mit dem nachfolgenden interagieren muss.
+Da diese Aufgaben im Programm nicht berücksichtigt werden und eine For-Schleife die schnellste Iterationsmethode ist, lasse ich den Quellcode unverändert.
 
 ### Aufgabe 2.3: Asynchrone Programmierung
+- "Future" wird für die Aufgaben verwendet, bei denen das Ergebnis einer Operation abgewartet werden muss, um anschließend weitere Aktionen auszuführen. "Future" ist eine Art Platzhalter, der anschließend mit einem Wert gefüllt wird.
+"Stream" kommt zur Anwendung, wenn keine einmaligen, sondern sequentielle Ergebnisse zu erwarten sind. Sobald ein Ergebnis vorliegt, wird automatisch eine Operation durchgeführt.
+- Im Quellcode wird keine asynchrone Programmierung verwendet. In der Methode "findBookInLibrary" der Klasse "Library", in der ein bestimmtes Buch in der Bibliothek gesucht wird, wäre sie jedoch sinnvoll. Erst nachdem es gefunden wurde, kann es ausgeliehen werden. Diese Methode ist besonders sinnvoll, wenn eine Bibliothek über einen großen Bestand verfügt.
 
 ## 3. Code-Qualität und Best Practices
 ### Aufgabe 3.1: Code-Qualität
+- Variablen und Funktionen verwenden camelCase, bei dem der erste Buchstabe klein und die Wortgrenzen mit großen Buchstaben geschrieben werden. Konstanten können sowohl mit camelCase als auch gemäß einer Tradition mit UPPER_CASE großgeschrieben werden, wobei an den Wortgrenzen ein Unterstrich steht.
+- Klassennamen und Enums verwenden PascalCase. Dabei beginnen sowohl der erste Buchstabe als auch die Wortgrenzen mit einem großen Buchstaben.
+- Dateinamen werden nach dem Prinzip "snake_case" kleingeschrieben und mit Unterstrichen an den Wortgrenzen gebildet.
 
 ### Aufgabe 3.2: Testing und Debugging
 
