@@ -155,7 +155,8 @@ Da es sich nicht um ein vollständiges Projekt, sondern um eine kleine Aufgabe f
 Um einen ununterbrochenen Workflow zu erzielen, könnte man nach jeder Aktion zum Startmenü zurückkehren. Mir war es wichtig, zu zeigen, wie elegant sich verschiedene logische Wege mittels Klassen umsetzen lassen.
 
 ### Aufgabe 1.3: User Experience
-Ohne GUI ist es schwierig, einen benutzerfreundlichen Ablauf zu gewährleisten. Die Trennung zwischen den logischen Abschnitten wurde mittels Zeilenabständen und Trennlinien (print("________________________________________________");) wie in der Methode "showAllBooksOfCollection" erreicht.
+- Ohne GUI ist es schwierig, einen benutzerfreundlichen Ablauf zu gewährleisten. Die Trennung zwischen den logischen Abschnitten wurde mittels Zeilenabständen und Trennlinien (print("________________________________________________");) wie in der Methode "showAllBooksOfCollection" erreicht. Die in der Konsole gestellten Fragen dienen außerdem als logische Trennung.
+- Die folgenden Dateien im Ordner "Assets" zeigen den Ablauf des Programms in der Konsole:  "library_books.png", "library_genre.png", "libraryFilter_error.png", "reader_account_dreate.png", "reader_account.png".
 
 ## 2. Dart Sprachfeatures Verständnis
 ### Aufgabe 2.1: Objektorientierung
