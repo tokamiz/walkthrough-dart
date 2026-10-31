@@ -204,7 +204,8 @@ Da diese Aufgaben im Programm nicht berücksichtigt werden und eine For-Schleife
 ### Aufgabe 2.3: Asynchrone Programmierung
 - "Future" wird für die Aufgaben verwendet, bei denen das Ergebnis einer Operation abgewartet werden muss, um anschließend weitere Aktionen auszuführen. "Future" ist eine Art Platzhalter, der anschließend mit einem Wert gefüllt wird.
 "Stream" kommt zur Anwendung, wenn keine einmaligen, sondern sequentielle Ergebnisse zu erwarten sind. Sobald ein Ergebnis vorliegt, wird automatisch eine Operation durchgeführt.
-- Im Quellcode wird keine asynchrone Programmierung verwendet. In der Methode "findBookInLibrary" der Klasse "Library", in der ein bestimmtes Buch in der Bibliothek gesucht wird, wäre sie jedoch sinnvoll. Erst nachdem es gefunden wurde, kann es ausgeliehen werden. Diese Methode ist besonders sinnvoll, wenn eine Bibliothek über einen großen Bestand verfügt.
+- Ursprünglich wurde im Quellcode keine asynchrone Programmierung verwendet. In der Methode "findBookInLibrary" der Klasse "Library", in der ein bestimmtes Buch in der Bibliothek gesucht wird, wäre sie jedoch sinnvoll. Erst nachdem es gefunden wurde, kann es ausgeliehen werden. Diese Methode ist besonders sinnvoll, wenn eine Bibliothek über einen großen Bestand verfügt.
+- In der Datei "library_national.dart" wurde zwar eine Fehlerbehandlung mit "try{}catch(error){}" vorgeführt, die jedoch keine Wirkung zeigt, da "Book" einen Null-Wert haben darf. Wenn die Daten in einer Datenbank gespeichert wären, wäre es hier sinnvoll, damit eine Bankverbindung zu testen.
 
 ## 3. Code-Qualität und Best Practices
 ### Aufgabe 3.1: Code-Qualität
