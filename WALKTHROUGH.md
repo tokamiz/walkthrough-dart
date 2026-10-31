@@ -161,12 +161,12 @@ Ohne GUI ist es schwierig, einen benutzerfreundlichen Ablauf zu gewährleisten. 
 ### Aufgabe 2.1: Objektorientierung
 - Das Programm wurde ohne Vererbung oder Abstraktion umgesetzt, obwohl sie in dem Fall vorteilig sein könnten.
 
-Die Klasse "BookItem" wiederholt die Parameter der Klasse "Book", die den Author("author"), den Titel("bookItemTitle") und die ISBN-Nummer("bookItemIsbn") darstellen. Um unnütze Einträge und Tippfehler zu vermeiden, kann man für die beiden Klassen eine Elternklasse erstellen.
+Die Klasse "BookItem" wiederholt die Parameter der Klasse "Book", die den Author("author"), den Titel("bookItemTitle") und die ISBN-Nummer("bookItemIsbn") darstellen. Um überflüssige Einträge und Tippfehler zu vermeiden, kann man eine Elternklasse für die beiden Klassen erstellen.
 
 Eine Bibliothek, die in der Klasse "Library" dargestellt wird, kann nicht nur für Büchersammlungen, sondern auch für viele weitere Kategorien wie Audio- und Videoaufnahmen sowie Computerspiele infrage kommen. Gemeinsam sind die Klassifizierung nach Genres und eine Benutzergruppe. Zu diesem Zweck wäre die Verwendung einer abstrakten Klasse sinnvoll.
 
-- Private Felder mit Unterstrich sichern empfindliche Informationen gegen Manipulation von außen. Sie werden in Gettern und Setzern verwendet. In dem Projekt wären Getter und Setter im Hinblick auf die Kontoverwaltung sinnvoll, um die persönlichen Daten der Benutzer zu schützen.
-Zusätzlich kann man in Setter eine Validierung der Daten einbauen. Bei der Kontoerstellung wird nach der Adresse des Benutzers gefragt, ohne deren Gültigkeit zu prüfen. Hier wäre die Ansetzung vom Setter vorteilig.
+- Private Felder mit Unterstrich sichern empfindliche Informationen gegen Manipulation von außen. Sie werden in Gettern und Setzern verwendet. Im Hinblick auf die Kontoverwaltung wären Getter und Setter in dem Projekt sinnvoll, um die persönlichen Daten der Benutzer zu schützen. Dies wurde anschließend in der Datei "reader.dart" umgesetzt.
+Zusätzlich kann man in Setter eine Validierung der Daten einbauen. Bei der Kontoerstellung wird nach der Adresse des Benutzers gefragt, ohne deren Gültigkeit zu prüfen. Hier besteht ein großes Weiterentwicklungspotenzial.
 
 ### Aufgabe 2.2: Collections und Datenstrukturen
 **List, Set, Map**
