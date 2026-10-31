@@ -82,7 +82,7 @@ classDiagram
 - Über die Methode „showReaderAccount“ kann der Benutzer Informationen zu seinen ausgeliehenen Büchern abrufen. Hierzu wird einfach die Liste „borrowedBooks” ausgegeben.
 
 **class BookCollektion:**
-- Genauso wie die Objekte der Klasse „Reader” sind die Objekte der Klasse „BookCollection” ein Bestandteil der Klasse „Library”. Als Parameter wird „Genre” übergeben, da es das Hauptkriterium für die Klassifizierung der Büchersammlungen ist. „BookCollection” enthält eine Liste der Objekten der Klasse "Book".
+- Genauso wie die Objekte der Klasse „Reader” sind die Objekte der Klasse "BookCollection" ein Bestandteil der Klasse "Library". Als Parameter wird „Genre” übergeben, da es das Hauptkriterium für die Klassifizierung der Büchersammlungen ist. "BookCollection" enthält eine Liste der Objekten der Klasse "Book".
 - Über die Methode "showAllBooksOfCollection" werden alle Buchbestände der Buchsammlung gelistet, sofern die Länge der Liste "books" größer als 0 ist. Die Funktion wird in der Methode "libraryFilter" der Klasse "Library" aufgerufen.
 - Über die Methode „getBook“ kann ein Buch anhand verschiedener Parameter wie „bookId“, „author“, „title“ oder „isbn“ mit unterschiedlichen Typen gesucht werden. Die Begriffe müssen den Parametern aus Gründen der Benutzerfreundlichkeit aber nicht identisch, sondern ähnlich sein. Idealerweise sollte hier eine richtige Validierung eingebaut werden und als Rückgabewert nicht ein, sondern mehrere Bücher ausgegeben werden. Dies wurde absichtlich ausgelassen, um das Programm zu vereinfachen. Die Methode wird in der Methode „findBookInLibrary” der Klasse „Library” aufgerufen und spielt eine Schlüsselrolle im gesamten Programm.
 
@@ -169,13 +169,16 @@ Eine Bibliothek, die in der Klasse "Library" dargestellt wird, kann nicht nur f�
 Zusätzlich kann man in Setter eine Validierung der Daten einbauen. Bei der Kontoerstellung wird nach der Adresse des Benutzers gefragt, ohne deren Gültigkeit zu prüfen. Hier wäre die Ansetzung vom Setter vorteilig.
 
 ### Aufgabe 2.2: Collections und Datenstrukturen
+**List, Set, Map**
 - Set<Book> books (globale Variable) - Die Bücher in der Bibliothek müssen eindeutig identifiziert werden. Duplikate sind nicht zulässig. Deswegen passt "Set" als Typ in diesem Fall.
-List<BookItem> bookItems (die Klasse Book) - Hier geht es um mehrere Exemplare eines Buches. Da die Daten identisch sein müssen passt der Typ "List" gut geeignet.
-In diesem Projekt wird der Typ "Map" nicht verwendet, da eine Klasse die Spezifikation von "Map" mit Schlüssel-Wert-Paaren gut widerspiegelt.
+- List<BookItem> bookItems (die Klasse Book) - Hier geht es um mehrere Exemplare eines Buches. Da die Daten identisch sein müssen passt der Typ "List" gut geeignet.
+- In diesem Projekt wird der Typ "Map" nicht verwendet, da eine Klasse die Spezifikation von "Map" mit Schlüssel-Wert-Paaren gut widerspiegelt.
 
-- In "List" wird bei der Suche eine Iteration durchgeführt. Deshalb kann eine Suchmethode bei großen Mengen von Elementen langsamer laufen als bei "Set" und "Map", die auf der Hashing-Technik basieren. Bei kleinen Mengen von Elementen ist die Iteration von "List" hingegen schneller. 
-Wenn die Reihenfolge der Elemente eine Rolle spielt, sollte "List" benutzt werden, da die Reihenfolge der Elemente bei anderen Typen nicht garantiert ist. Mit "contains" wird eine Existenzprüfung durchgeführt, die für alle drei Typen anwendbar ist.
+**Performance-Unterschied**
+- Mit "contains" wird eine Existenzprüfung durchgeführt, die für alle drei Typen anwendbar ist. In "List" wird bei der Suche eine Iteration durchgeführt. Deshalb kann eine Suchmethode bei großen Mengen von Elementen langsamer laufen als bei "Set" und "Map", die auf der Hashing-Technik basieren. Bei kleinen Mengen von Elementen ist die Iteration von "List" hingegen schneller. 
+Wenn die Reihenfolge der Elemente eine Rolle spielt, sollte "List" verwendet werden, da die Reihenfolge der Elemente bei anderen Typen nicht garantiert ist und der Iterationsprozess langsamer ist.
 
+**Iteration**
 - In der Methode "libraryFilter" der Klasse "Library" werden alle Büchersammlungen in einer For-Schleife iteriert: 
 
 for(BookCollektion collektion in libCollections){
@@ -183,7 +186,7 @@ for(BookCollektion collektion in libCollections){
 }
 
 Die For-Schleife ist die am häufigsten verwendete Schleife im Quellcode. Sie ist die effizienteste Methode, um alle Elemente aufzulisten.
-In der Methode "addBookToLibrary" der Klasse "Library" soll  eine Buchsammlung entweder nach der Genre gefunden, oder eine neue erstellt werden, falls keine gefunden wurde. Da es um ein bestimmtes Element geht, wird die Abfrage "firstWhere - orElse" verwendet.
+- In der Methode "addBookToLibrary" der Klasse "Library" soll  eine Buchsammlung entweder nach der Genre gefunden, oder eine neue erstellt werden, falls keine gefunden wurde. Da es um eine Existenzprüfung geht, wird die Abfrage "firstWhere - orElse" verwendet.
 
 BookCollektion collektion = libr.libCollections.firstWhere(
     (item) => item.genre == genre,
@@ -194,9 +197,8 @@ BookCollektion collektion = libr.libCollections.firstWhere(
         return newCollection;
     }
 );
-
-"map" ist sinnvoll zu benutzen, wenn eine Transformation, z.B. mit "join", durchgefürht werden soll.
-"fold" passt für die Fälle, in denen ein vorheriges Element mit dem nachfolgenden interagieren muss.
+- "map" ist sinnvoll zu benutzen, wenn eine Transformation, z.B. mit "join", durchgefürht werden soll.
+"fold" sowie "reduce" sind geeignet für die Fälle, in denen ein vorheriges Element mit dem nachfolgenden interagieren muss.
 Da diese Aufgaben im Programm nicht berücksichtigt werden und eine For-Schleife die schnellste Iterationsmethode ist, lasse ich den Quellcode unverändert.
 
 ### Aufgabe 2.3: Asynchrone Programmierung
@@ -206,10 +208,46 @@ Da diese Aufgaben im Programm nicht berücksichtigt werden und eine For-Schleife
 
 ## 3. Code-Qualität und Best Practices
 ### Aufgabe 3.1: Code-Qualität
+**Dart-Analyze**
+- Das Projekt wurde mit dem Befehl 'dart analyse library.dart' analysiert.
+Das Ergebnis lautet: 
+
+dart analyze library.dart
+Analyzing library.dart...              0.2s
+No issues found!
+
+Ein Screenshot im Ordner assets.
+
+**Dart-Naming-Conventions**
 - Variablen und Funktionen verwenden camelCase, bei dem der erste Buchstabe klein und die Wortgrenzen mit großen Buchstaben geschrieben werden. Konstanten können sowohl mit camelCase als auch gemäß einer Tradition mit UPPER_CASE großgeschrieben werden, wobei an den Wortgrenzen ein Unterstrich steht.
 - Klassennamen und Enums verwenden PascalCase. Dabei beginnen sowohl der erste Buchstabe als auch die Wortgrenzen mit einem großen Buchstaben.
 - Dateinamen werden nach dem Prinzip "snake_case" kleingeschrieben und mit Unterstrichen an den Wortgrenzen gebildet.
 
+**Verbesserungspotential**
+- In der Regel wird im Quellcode nach falschen Eingaben und entsprechend nach einer Fehlermeldung gefragt, ob das Verfahren wiederholt werden soll. Liefert die Methode "getProgrammConitnueValue" als Rückgabewert "true", wird die aktuelle Funktion rekursiv aufgerufen. Die Stelle spielt eine wesentliche Rolle im Design der Software und soll eleganter implementiert werden. Eine Möglichkeit wäre, eine Klasse mit Setter und Getter zu schreiben, die als Parameter eine Fehlermeldung und ein Callback mit der ausgeführten Methode erhält.
+- Die Funktion "addBookToLibrary" und die Klasse "Reader" wurden als die Bereiche mit dem größten Weiterentwicklungspotenzial mit Dokumentationskommentaren vervollständigt.
+
 ### Aufgabe 3.2: Testing und Debugging
+**Unit-Tests**
+- Das Projekt "Komplexes Konsolenprogramm" wurde um die Testdatei "library_test.dart" erweitert.
+- Mit Unit-Tests werden bestimmte Komponenten dahingehend getestet, wie das Design der Software gesteuert wird. Es geht dabei weniger um die Suche nach Fehlern. Werden neue Funktionen in das Programm integriert, lassen sich Veränderungen im Verhalten bzw. unabsichtliche Auswirkungen schnell mittels Unit-Tests finden.
+
+- Die meisten Fehler treten an den Stellen auf, an denen ein Eintrag oder ein Suchergebnis einem bestimmten Typ entsprechen muss. Das Programm sieht eine Kooperation mit dem Benutzer vor. Dadurch wächst die Fehleranfälligkeit, da auch ein unerwartetes Verhalten berücksichtigt werden muss. 
+In diesem Sinne ist die Methode "libraryFilter" der Klasse „Library” am anspruchsvollsten. Wurde Unit-Test für die Methode "showAllBookCollections" ausgeführt, ohne die Testdateien in die Bibliothek eingefügt zu haben, ist eine Fehlermeldung "Sie haben eine ungültige Eingabe eingetragen." vorgekommen. So wurde eine falsche Fehlermeldung für einen leeren Bibliotheksbestand festgestellt. Der Fehler wurde anschließend behoben.
+In der Methode "getBookCollection" der Klasse "Library" wurde eine Buchsammlung nach ihrer ID gesucht, ohne den möglichen Nullwert als Rückgabewert zu berücksichtigen. Der Fehler wurde beim manuellen Testen entdeckt und anschließend durch die Abfrage "where().firstOrNull" behoben.
 
 ### Aufgabe 3.3: Performance und Skalierbarkeit
+**Optimierung**
+- Wäre die Datenmenge 100- oder 10.000-mal so groß, wären sowohl die Darstellung des Bücherbestands als auch die Suchfunktion komplizierter und langsamer. Normalerweise werden die Daten in einer Datenbank gespeichert. 
+- Zunächst würde ich mir überlegen, welche Datenbank eingesetzt werden soll, wie diese angesprochen wird und ob ein ORM infrage kommt. Aus meiner Sicht stehen die Datenspeicherung und Datenverwaltung in den meisten Projekten im Vordergrund.
+- Anschließend würde ich mich um die Aktualisierung des Bibliotheksbestands kümmern. Derzeit steht ein Set mit bestimmten Büchern zur Verfügung. Im echten Leben sollten die Elemente eingefügt und gelöscht werden können.
+- In diesem Zusammenhang stellt sich die Frage, wer den Bibliotheksbestand aktualisieren darf. Anschließend sollte die Authentifizierung umgesetzt werden, um die Rechte von Administratoren und einfachen Benutzern zu bestimmen. Entsprechend soll die Klasse "Library" um zusätzliche Methoden wie "removeBook" oder "insertBook" ergänzt werden.
+- Das Thema "Library" ist an sich sehr umfangreich und lässt sich auf verschiedene Weise weiterentwickeln. Und, wie gesagt, nicht nur im Hinblick auf Bücher.
+
+**Garbage Collection**
+Die Garbage Collection in Dart verwendet einen sogenannten "Generational Garbage Collector" und operiert mit zwei Bereichen für die Speicherverwaltung: der "jungen Generation" (Young Generation) und der "alten Generation" (Old Generation).
+In der "Young Generation" landen alle frisch erstellten Objekte sowie kurzlebige Objekte wie "Response-Objekte". Hier findet ein häufigeres Scannen und dementsprechend auch eine Speicherbereinigung statt.
+GC untersucht den Quellcode vom Root aus rekursiv, um festzustellen, ob alle Objekte erreichbar oder referenzierbar sind. Objekte, die nicht mehr angesprochen werden, werden als löschbar markiert.
+Objekte, die mehrere solcher Zyklen überlebt haben, werden als langlebig markiert und in die "Old Generation" verschoben. Dort wird das Scannen nicht mehr so häufig durchgeführt.
+Ein Vorteil dieser Methode ist, dass der Speicher häufiger und schneller von kurzlebigen Objekten bereinigt wird. Gleichzeitig wird die kostenintensive Bereinigung in der "Old Generation" seltener durchgeführt.
+Während der Arbeitszeit der Garbage Collection läuft die App weiter, ohne dass sie gestoppt werden muss.
